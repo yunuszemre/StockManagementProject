@@ -22,10 +22,10 @@ namespace StockManagementProject.Repositories.Context
 
         public DbSet<User> Users { get; set; }
 
-        //public StockManagementProjectContext(DbContextOptions<StockManagementProjectContext> options) : base(options)
-        //{
+        public StockManagementProjectContext(DbContextOptions<StockManagementProjectContext> options) : base(options)
+        {
 
-        //}
+        }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlServer("Server = DESKTOP-BODOH2U\\SA; Database = StockManagementDB; uid = sa; pwd = 1234");

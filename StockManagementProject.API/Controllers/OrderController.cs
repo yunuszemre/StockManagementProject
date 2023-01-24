@@ -45,7 +45,7 @@ namespace StockManagementProject.API.Controllers
             return Ok(_orderService.GetById(id));
         }
         [HttpPost]
-        public IActionResult AddOrder(int userId, int[] productIds, int[] quantities)
+        public IActionResult AddOrder(int userId, [FromQuery] int[] productIds, [FromQuery] int[] quantities)
         {
             Order order = new Order();
 
@@ -57,6 +57,7 @@ namespace StockManagementProject.API.Controllers
             for (int i = 0; i < productIds.Length; i++)
             {
                 OrderDetails orderDetail = new OrderDetails();
+                orderDetail.OrderId = order.Id;
                 orderDetail.Status = Status.Active;
                 orderDetail.ProductId = productIds[i];
                 orderDetail.Quantity = (short)quantities[i];
@@ -69,21 +70,65 @@ namespace StockManagementProject.API.Controllers
             return CreatedAtAction("GetById", new { id = order.Id }, order);
         }
         [HttpPut]
-        public IActionResult UpdateOrder(Order order)
+        public IActionResult UpdateOrder(int userId, [FromQuery] int[] productIds, [FromQuery] int[] quantities)
         {
-            return Ok(_orderService.Update(order));
+            Order order = new Order();
+
+            order.CreateDate = DateTime.Now;
+            order.Status = Status.Pending;
+            order.UserId = userId;
+            _orderService.Update(order);
+
+            for (int i = 0; i < productIds.Length; i++)
+            {
+                OrderDetails orderDetail = new OrderDetails();
+                orderDetail.OrderId = order.Id;
+                orderDetail.Status = Status.Active;
+                orderDetail.ProductId = productIds[i];
+                orderDetail.Quantity = (short)quantities[i];
+                orderDetail.UnitPrice = _productService.GetById(productIds[i]).UnitPrice;
+                orderDetail.CreateDate = DateTime.Now;
+                _orderDetailService.Update(orderDetail);
+
+            }
+
+            return CreatedAtAction("GetById", new { id = order.Id }, order);
         }
         [HttpPut]
         public IActionResult ActivateOrder(int id)
         {
+            var order = _orderService.GetById(id);
+            order.Status = Status.Active;
             return Ok(_orderService.Activate(id));
+        }
+        [HttpPut]
+        public IActionResult CompleteOrder(int id)
+        {
+            var order = _orderService.GetById(id);
+            order.Status = Status.Passive;
+            return Ok(_orderService.Update(order));
+        }
+        [HttpPut]
+        public IActionResult RejectOrder(int id)
+        {
+            var order = _orderService.GetById(id);
+            order.Status = Status.Rejected;
+            return Ok(_orderService.Update(order));
         }
         [HttpDelete]
         public IActionResult DeActivateOrder(int id)
         {
-            var cat = _orderService.GetById(id);
-            cat.Status = Entities.Enums.Status.Passive;
-            return Ok(_orderService.Update(cat));
+            var order = _orderService.GetById(id);
+            if (order == null)
+            {
+                return NotFound("Sipariş Bulunamadı");
+            }
+            else
+            {
+                order.Status = Status.Passive;
+                return Ok(_orderService.Update(order));
+            }
+
         }
 
     }
