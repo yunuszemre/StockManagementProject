@@ -1,0 +1,49 @@
+﻿@model List<Category>
+<style>
+    td{
+        justify-content: left;
+        text-align: start~
+    }
+    
+</style>
+<div class="col-xl-6">
+    <div class="card">
+        <div class="card-body">
+            <h4 class="box-title">Orders </h4>
+        </div>
+        <div class="card-body--">
+            <div class="table-stats order-table ov-h">
+                <table class="table ">
+                    <thead>
+                        <tr>
+                            <th class="Kategori Id">#</th>                                                     
+                            <th>Kategori Adı</th>
+                            <th>Kategori Açıklaması</th>
+                            <th>Durum</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{
+                            foreach (Category item in Model)
+                            {
+                                <tr>
+                                    <td class="serial">@item.Id</td>                                              
+                                    <td> @item.CategoryName </td>
+                                    <td>@item.CategoryDescription</td                                    
+                                    <td>
+                                            @if(item.Status == Status.Active){
+                                                <p>Aktif</p>
+                                            }else if(item.Status == Status.Passive)
+                                            {
+                                               <p>Pasif</p>
+                                            }
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div> <!-- /.table-stats -->
+        </div>
+    </div> <!-- /.card -->
+</div>
