@@ -19,10 +19,6 @@ namespace StockManagementProject.Entities.Entities.Concreate
 
         public virtual User? User { get; set; }
 
-        [ForeignKey("Supplier")]
-        public int SupplierId { get; set; }
-
-        public virtual Supplier Supplier { get; set; }
         public virtual List<OrderDetails>? OrderDetails { get; set; }
     }
 }

@@ -10,6 +10,7 @@ namespace StockManagementProject.Entities.Enums
     {
         Active = 1,
         Passive,
+        Rejected,
         Pending,
         Updated
     }

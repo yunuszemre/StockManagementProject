@@ -11,7 +11,7 @@ namespace StockManagementProject.Entities.Entities.Concreate
     {
         public Supplier()
         {
-            this.Orders = new List<Order>();
+           
             this.Products = new List<Product>();
         }
         public string SuppplierName { get; set; }
@@ -24,6 +24,6 @@ namespace StockManagementProject.Entities.Entities.Concreate
 
 
         public virtual List<Product>? Products { get; set; }
-        public virtual List<Order>? Orders { get; set; }
+     
     }
 }
