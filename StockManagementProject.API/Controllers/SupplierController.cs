@@ -10,17 +10,27 @@ namespace StockManagementProject.API.Controllers
     public class SupplierController : ControllerBase
     {
         private readonly IGenericService<Supplier> _service;
-
-        public SupplierController(IGenericService<Supplier> service)
+        private readonly IGenericService<OrderDetails> _orderDetailService;
+        private readonly IGenericService<Order> _orderService;
+        public SupplierController(IGenericService<Supplier> service, IGenericService<Order> orderService, IGenericService<OrderDetails> orderDetailService)
         {
+            this._orderService= orderService;
             this._service = service;
+            this._orderDetailService = orderDetailService;
         }
         [HttpGet]
         public IActionResult GetAllSuppliers()
         {
             return Ok(_service.GetAll());
         }
+        //[HttpGet]
+        //public IActionResult GetOrdersBySupplierId(int id)
+        //{
+           
 
+        //}
+        //[HttpGet]
+        
         [HttpGet]
         public IActionResult GetActiveSuppliers()
         {
