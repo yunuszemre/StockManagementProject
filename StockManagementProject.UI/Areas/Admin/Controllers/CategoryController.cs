@@ -21,5 +21,18 @@ namespace StockManagementProject.UI.Areas.Admin.Controllers
             }
             return View(categories);
         }
+        public async Task<IActionResult> Detail(int id)
+        {
+            Category category;
+            using (var httpClient = new HttpClient())
+            {
+                using (var response = await httpClient.GetAsync($"{uri}/api/Category/GetById/{id}"))
+                {
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+                    category = JsonConvert.DeserializeObject<Category>(apiResponse);
+                }
+            }
+            return View(category);
+        }
     }
 }

@@ -1,25 +1,26 @@
 ﻿@model List<Category>
 <style>
-    td{
+    td {
         justify-content: left;
         text-align: start~
     }
-    
 </style>
-<div class="col-xl-6">
+<div class="col-xl-12">
     <div class="card">
-        <div class="card-body">
-            <h4 class="box-title">Orders </h4>
-        </div>
+        @*<div class="card-body">
+        <h4 class="box-title"></h4>
+        </div>*@
         <div class="card-body--">
+
             <div class="table-stats order-table ov-h">
                 <table class="table ">
                     <thead>
                         <tr>
-                            <th class="Kategori Id">#</th>                                                     
+                            <th class="Kategori Id">#</th>
                             <th>Kategori Adı</th>
                             <th>Kategori Açıklaması</th>
                             <th>Durum</th>
+                            <th>İşlemler</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -27,16 +28,31 @@
                             foreach (Category item in Model)
                             {
                                 <tr>
-                                    <td class="serial">@item.Id</td>                                              
+                                    <td class="serial">@item.Id</td>
                                     <td> @item.CategoryName </td>
-                                    <td>@item.CategoryDescription</td                                    
+                                    <td>@item.CategoryDescription</td>
                                     <td>
-                                            @if(item.Status == Status.Active){
-                                                <p>Aktif</p>
-                                            }else if(item.Status == Status.Passive)
-                                            {
-                                               <p>Pasif</p>
-                                            }
+                                        @if (item.Status == Status.Active)
+                                        {
+                                            <p>Aktif</p>
+                                        }
+                                        else if (item.Status == Status.Passive)
+                                        {
+                                            <p>Pasif</p>
+                                        }
+
+                                    </td>
+                                    <td>
+                                        <a asp-controller="Category" asp-action="Detail" asp-area="Admin" asp-route-id="@item.Id" class="btn btn-warning btn-sm" style="color:white"><i class="fa fa-edit"style="margin: 5px"></i></a>
+                                        @if (item.Status == Status.Active)
+                                        {
+                                            <a class="btn btn-danger btn-sm" style="color:white"><i class="fa fa-ban" style="margin: 5px"></i></a>
+                                        }else
+                                        {
+                                    <a class="btn btn-success btn-sm" style="color:white"><i class="fa fa-check" style="margin: 5px"></i></a>
+                                        }
+
+                                        
                                     </td>
                                 </tr>
                             }
